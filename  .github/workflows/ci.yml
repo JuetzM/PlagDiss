@@ -1,61 +1,32 @@
-name: Perl CI after configuring, which might be due to an outdated toolchain. Here is a potential solution to update
-
-on: [push, pull_request]
-
-jobs:
-  build:
-    runs-on the toolchain and fix the issue:
-
-1. Add a step: ubuntu-latest
-
-    steps:
-    - uses: actions/ to update the CPAN module before installing dependencies.
-2. Modify the `.github/workflows/ci.yml` file as followscheckout@v2
-
-    - name: Set up Perl
-      uses: shogo:
-
-```yaml
 name: Perl CI
 
 on:
   push:
-    branches:82148/actions-setup-perl@v1
-      with:
-        perl [ main ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
-jobs-version: '5.32'
-
-    - name: Install dependencies
-:
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      run: |
-        cpanm --notest --installdeps .
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-    - name: Repository auschecken
-      uses: actions/checkout@v2   
+    - name: Install Perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: '5.34'
 
- -    name -: name Run: tests Perl
- installieren     
- run     : uses |
-:        perl Make shogo82148file/actions.PL-
-setup       -per makel
-@       v make1 test
-
-     `` with`
-
-:
-Make        sure perl to adjust the Perl version (`perl-version: '5-version: '5.34'
-
-    - name: CPAN Module aktualisieren.32'`) to the latest stable version suitable for your project
+    - name: Update CPAN and cpanminus
       run: |
         cpan App::cpanminus
-        c. This should resolve the issue with the missing `panm --self-upgrade
+        cpanm --self-upgrade
 
-    - name: Abhängigkeiten installieren
-MYMETA` file.      run: |
+    - name: Install Dependencies
+      run: |
         cpanm --installdeps --notest .
+
+    - name: Run Tests
+      run: |
+        prove -l
